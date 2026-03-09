@@ -3,12 +3,13 @@
 namespace App\Repositories;
 
 use App\Interfaces\RoleRepositoryInterface;
+use App\Models\User;
 use Spatie\Permission\Models\Role;
 
 class RoleRepository implements RoleRepositoryInterface
 {
     public function getAllRole()
-    {        
+    {
         return Role::with('permissions')->get();
     }
 
@@ -30,6 +31,13 @@ class RoleRepository implements RoleRepositoryInterface
         $role->delete();
 
         return true;
+    }
+
+    public function assignRole(array $data): User
+    {
+        $user = User::findOrFail($data['user_id']);
+        $user->assignRole($data['role']);
+        return $user->load('roles');
     }
 
     public function givePermission(string $roleName, array $permissions): Role

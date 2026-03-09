@@ -59,6 +59,19 @@ class RoleController extends Controller
         }
     }
 
+    public function assignRole(Request $request)
+    {
+        $validate = $request->validate([
+            'user_id' => ['required', 'exists:users,id'],
+            'role' => ['required', 'exists:roles,name']
+        ]);
+        $user = $this->roleRepository->assignRole($validate);
+        return response()->json([
+            'message' => 'Role assigned successfully',
+            'user' => $user->load('roles')
+        ]);
+    }
+
     public function givePermission(Request $request): JsonResponse
     {
         $validated = $request->validate([

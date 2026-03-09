@@ -25,9 +25,10 @@ Route::prefix('role')->middleware('auth:sanctum')->controller(RoleController::cl
     Route::post('/add-role', 'store')->name('role.store');
     Route::put('/edit-role', 'editRole')->name('role.edit');
     Route::post('/delete-role', 'deleteRole')->name('role.delete');
-    Route::post('/assign-permission', 'givePermission')->name('role.assign.permission');
+    Route::post('/assign-role', 'assignRole')->name('role.assign.role');
 });
 
 Route::prefix('permission')->middleware('auth:sanctum')->controller(PermissionController::class)->group(function () {
     Route::post('/permission-create', 'store')->name('permission.create');
+    Route::post('/assign-permission', 'givePermission')->name('role.assign.permission');
 });
